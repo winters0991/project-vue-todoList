@@ -7,6 +7,6 @@
 
 ## [预览](https://winters0991.github.io/project-vue-todoList/page.html)：
 
-![title](https://leanote.com/api/file/getImage?fileId=59213c66ab64411174000f93)
+![](./img/preview1.png)
 
-![title](https://leanote.com/api/file/getImage?fileId=59213d21ab64411174000fb1)
+![](./img/preview2.png)
