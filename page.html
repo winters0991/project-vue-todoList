@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset=utf-8>
+    <title>todoList</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+  <body>
+    <div id="app">
+      <div class="backImg" style='background: url(./img/backImg.jpg)' v-if="!currentUser"></div>
+      <section id="signInAndSignUp" v-if="!currentUser">
+        <h1>Todo List</h1>
+        <div class='sign'>
+          <label :class="{focus:actionType === 'signUp'}"><input type='radio' name='type' v-model='actionType' value='signUp'>注册</label>
+          <label :class="{focus:actionType === 'login'}"><input type='radio' name='type' v-model='actionType' value='login'>登入</label>
+        </div>
+        <div class="signUp" v-if='actionType==="signUp"'>
+          <form @submit.prevent=signUp>
+            <div class="formRow">
+              <p>用户名</p>
+              <input type='text' v-model='formData.username' placeholder='请输入用户名'>
+            </div>
+            <div class="formRow">
+              <p>密码</p>
+              <input type='password' v-model='formData.password' placeholder='请输入密码'>
+            </div>
+            <div class="formActions">
+              <input type="submit" value='注册'>
+            </div>
+          </form>
+        </div>
+        <div class="login" v-if='actionType==="login"'>
+          <form @submit.prevent='login'>
+            <div class="formRow">
+              <p>用户名</p>
+              <input type='text' v-model='formData.username' placeholder='请输入用户名'>
+            </div>
+            <div class="formRow">
+              <p>密码</p>
+              <input type='password' v-model='formData.password' placeholder='请输入密码'>
+            </div>
+            <div class="formActions">
+              <input type='submit' value='登入'>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section id="todo" v-if="currentUser">
+        <div class="sidebar">
+          <h1>Todo List</h1>
+          <ul class='filter'>
+            <li @click='filterAll' :class="{finishActive:finishFocus === 'all'}"><i class='fa fa-calendar'></i>全部事项</li>
+            <li @click='filterTodo' :class="{finishActive:finishFocus === 'todo'}"><i class='fa fa-calendar-times-o'></i>待办事项</li>
+            <li @click='filterDone' :class="{finishActive:finishFocus === 'done'}"><i class='fa fa-calendar-check-o'></i>已完事项</li>        
+          </ul>
+        </div>
+        <div class="todoCt">
+          <div class="newTask">
+            <input type="text" v-model='newTodo' @keypress.enter='addTodo' placeholder='请输入待办事项'>
+            <span class="btn addTask" @click='addTodo'>添加事项</span>
+            <span class="btn clearAll" @click='clearAll'>清空列表</span>
+            <span class='showCurrentUser'><i class='fa fa-user-circle'></i>你好：{{currentUser.username}}</span>
+            <a href='#' @click="logout"><i class='fa fa-sign-out'></i>登出</a>
+          </div>
+          <ul class="todos">
+            <li v-for='todo in todoList'>
+              <span class='btn btn-done' v-show="todo.finished" @click="changeFinish(todo)">已完成</span>
+              <span class='btn btn-notDone' v-show="!todo.finished" @click="changeFinish(todo)">未完成</span>
+              <span class='todo' :class="{isFinished:todo.finished}">{{todo.title}}</span>
+              <span class="timeCt">            
+                <span class='time'>创建时间：{{todo.createdAt}}</span>
+                <a class='remove' href='#' @click='removeTodo(todo)'>删除</a>
+              </span>              
+            </li>
+          </ul>
+      </section>
+    </div>
+    </div>
+    <script src="bundle.js"></script>
+  </body>
+</html>
